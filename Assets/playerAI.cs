@@ -6,6 +6,7 @@ using TouchScript;
 public class playerAI : MonoBehaviour {
 
     private Rigidbody2D rbd;
+    public static playerAI player;
 
     public float dashTime = 0.1f;
     public float dashSpeedInc = 80;
@@ -17,6 +18,10 @@ public class playerAI : MonoBehaviour {
     public float dashTimer;
     public enum playerState {Charging,Dashing,Idle }
     public playerState myState;
+
+    public static float timeSpeed= 1;
+    public float chargeMinTimeSpeed = 0.1f;
+    public float chargeTimeInc = 1f;
 
     private void OnEnable()
     {
@@ -38,12 +43,16 @@ public class playerAI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        dashSpeedInc = 80f;
+    player = this;
+
+    dashSpeedInc = 80f;
         minDashSpeed = 20f;
         maxDashSpeed = 100f;
         dashTime = 0.1f;
+        chargeMinTimeSpeed = 0.1f;
+        chargeTimeInc = 1f;
         
-         
+
         dashTimer = 0;
         myState = playerState.Idle;
         rbd = GetComponent<Rigidbody2D>();
@@ -56,10 +65,17 @@ public class playerAI : MonoBehaviour {
             case playerState.Charging:
                 if (chargedDashSpeed<maxDashSpeed)
                 {
-                    chargedDashSpeed += dashSpeedInc * Time.deltaTime;
+                    chargedDashSpeed += dashSpeedInc * Time.deltaTime * timeSpeed;
                 } else
                 {
                     EnterState(playerState.Dashing);
+                }
+                if (timeSpeed>chargeMinTimeSpeed)
+                {
+                    timeSpeed -= Time.deltaTime * chargeTimeInc;
+                } else
+                {
+                    timeSpeed = chargeMinTimeSpeed;
                 }
                 break;
             case playerState.Dashing:
@@ -102,12 +118,28 @@ public class playerAI : MonoBehaviour {
         }
     }
 
+    void ExitState()
+    {
+        switch (myState)
+        {
+            case playerState.Charging:
+                timeSpeed = 1; 
+                break;
+            case playerState.Dashing:
+                break;
+            case playerState.Idle:
+                break;
+            default:
+                break;
+        }
+    }
+
     void EnterState(playerState stateEntered)
     {
+        ExitState();
         switch (stateEntered)
         {
             case playerState.Charging:
-
                 chargedDashSpeed = minDashSpeed;
                 rbd.velocity = Vector2.zero;
                 myState = playerState.Charging;
