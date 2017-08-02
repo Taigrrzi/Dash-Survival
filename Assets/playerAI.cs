@@ -64,10 +64,10 @@ public class playerAI : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        float h = pointPos.x;
-        float v = pointPos.y;
-        float angle = -Mathf.Atan2(h, v) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        //float h = pointPos.x;
+        //float v = pointPos.y;
+        //float angle = -Mathf.Atan2(h, v) * Mathf.Rad2Deg;
+        //transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     // Update is called once per frame
@@ -92,7 +92,7 @@ public class playerAI : MonoBehaviour {
                 }
                 break;
             case playerState.Dashing:
-                timeSpeed = Mathf.Lerp(timeSpeed, 1, Time.deltaTime * 4);
+                timeSpeed = Mathf.Lerp(timeSpeed, 1, Time.deltaTime * 10);
                 if (dashTimer > 0)
                 {
                     rbd.velocity = dashDir * chargedDashSpeed * timeSpeed;
@@ -125,6 +125,11 @@ public class playerAI : MonoBehaviour {
         {
             if (myState == playerState.Charging)
             {
+
+                pointPos = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10));
+                dir = pointPos - transform.position;
+                dashDir = dir;
+                dashDir = dashDir.normalized;
                 EnterState(playerState.Dashing);
             }
         }
@@ -134,9 +139,6 @@ public class playerAI : MonoBehaviour {
         foreach (var pointer in e.Pointers)
         {
             pointPos = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10));
-            dir = pointPos - transform.position;
-            dashDir = dir;
-            dashDir = dashDir.normalized;
         }
     }
 
