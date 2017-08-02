@@ -166,11 +166,11 @@ public class playerAI : MonoBehaviour {
         {
             case playerState.Charging:
                 chargedDashSpeed = minDashSpeed;
-                //rbd.velocity = Vector2.zero;
+                rbd.velocity = Vector2.zero;
                 myState = playerState.Charging;
                 break;
             case playerState.Dashing:
-                Debug.Log("Dash: " + chargedDashSpeed);
+                //Debug.Log("Dash: " + chargedDashSpeed);
                 dashTimer = dashTime;
                 myState = playerState.Dashing;
                 break;

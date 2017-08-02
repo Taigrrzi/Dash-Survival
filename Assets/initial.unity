@@ -922,6 +922,58 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1328001344}
+--- !u!1 &1349941706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1349941708}
+  - component: {fileID: 1349941707}
+  m_Layer: 0
+  m_Name: Wave Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1349941707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1349941706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 896c137da0c357f4794ada3999387d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  world1Monsters:
+  - {fileID: 1243228050756044, guid: f4777717ad380594d857226ecebf2bec, type: 2}
+  - {fileID: 1474076611500146, guid: 43249d2ded3b2b24daaa5884b7b010b0, type: 2}
+  world1MonsterDifficulty: 0300000003000000
+  waveDuration: 30
+  initialDifficulty: 25
+  currentDifficulty: 0
+  difficultyInc: 10
+  currentMonsters: []
+  baseSpawnDelay: 0
+  spawnTimer: 0
+  waveTimer: 0
+--- !u!4 &1349941708
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1349941706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1403820978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,7 +1084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1927825306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1058,6 +1110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896c137da0c357f4794ada3999387d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  world1Monsters: []
+  world1MonsterDifficulty: 
+  waveDuration: 0
+  initialDifficulty: 0
+  currentDifficulty: 0
+  difficultyInc: 0
+  currentMonsters: []
+  baseSpawnDelay: 0
+  spawnTimer: 0
+  waveTimer: 0
 --- !u!4 &1927825308
 Transform:
   m_ObjectHideFlags: 0

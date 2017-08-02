@@ -12,6 +12,7 @@ public class timeSpeedDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetComponent<Text>().text = ""+playerAI.timeSpeed;
-	}
+        GetComponent<Text>().text = "" + waveSpawner.waveNumber;
+       // GetComponent<Text>().text = ""+playerAI.timeSpeed;
+    }
 }

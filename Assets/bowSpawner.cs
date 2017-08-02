@@ -29,7 +29,7 @@ public class bowSpawner : MonoBehaviour {
         {
             x = (Random.value * (24)) -12;
             y = (Random.value * (18)) - 8;
-        } while ((x>8||x<-8)&&(y>5||y<-5));
+        } while ((x>-8&&x<8)&&(y>-5||y<5));
         Instantiate<GameObject>(bowMan,new Vector3(x,y,10),Quaternion.identity);
     }
 }
