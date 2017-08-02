@@ -9,7 +9,6 @@ public class playerAI : MonoBehaviour {
     public static playerAI player;
 
     public float dashTime = 0.1f;
-    public float dashSpeedInc = 80;
     public float minDashSpeed = 10f;
     public float maxDashSpeed = 100f;
 
@@ -21,7 +20,7 @@ public class playerAI : MonoBehaviour {
 
     public static float timeSpeed= 1;
     public float chargeMinTimeSpeed = 0.1f;
-    public float chargeTimeInc = 1f;
+    public float chargeMaxTime = 1f;
 
     private void OnEnable()
     {
@@ -44,13 +43,12 @@ public class playerAI : MonoBehaviour {
     // Use this for initialization
     void Start () {
     player = this;
-
-    dashSpeedInc = 80f;
+        
         minDashSpeed = 20f;
         maxDashSpeed = 100f;
         dashTime = 0.1f;
         chargeMinTimeSpeed = 0.1f;
-        chargeTimeInc = 1f;
+        chargeMaxTime = 1f;
         
 
         dashTimer = 0;
@@ -65,24 +63,25 @@ public class playerAI : MonoBehaviour {
             case playerState.Charging:
                 if (chargedDashSpeed<maxDashSpeed)
                 {
-                    chargedDashSpeed += dashSpeedInc * Time.deltaTime * timeSpeed;
-                } else
+                    chargedDashSpeed +=  ((maxDashSpeed-minDashSpeed)/ chargeMaxTime) * timeSpeed * Time.deltaTime;
+                }/* else
                 {
                     EnterState(playerState.Dashing);
-                }
+                }*/
                 if (timeSpeed>chargeMinTimeSpeed)
                 {
-                    timeSpeed -= Time.deltaTime * chargeTimeInc;
+                    timeSpeed = Mathf.Lerp(timeSpeed,chargeMinTimeSpeed, Time.deltaTime*4);
                 } else
                 {
                     timeSpeed = chargeMinTimeSpeed;
                 }
                 break;
             case playerState.Dashing:
+                timeSpeed = Mathf.Lerp(timeSpeed, 1, Time.deltaTime * 4);
                 if (dashTimer > 0)
                 {
-                    rbd.velocity = dashDir * chargedDashSpeed;
-                    dashTimer -= Time.deltaTime;
+                    rbd.velocity = dashDir * chargedDashSpeed * timeSpeed;
+                    dashTimer -= Time.deltaTime*timeSpeed;
                 }
                 else
                 {
@@ -90,6 +89,7 @@ public class playerAI : MonoBehaviour {
                 }
                 break;
             case playerState.Idle:
+                    timeSpeed = Mathf.Lerp(timeSpeed, 1, Time.deltaTime * 4);
                 break;
             default:
                 break;
@@ -101,9 +101,6 @@ public class playerAI : MonoBehaviour {
     {
         foreach (var pointer in e.Pointers)
         {
-            Vector3 dir = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10)) - transform.position;
-            dashDir = dir;
-            dashDir = dashDir.normalized;
             EnterState(playerState.Charging);
         }
     }
@@ -113,6 +110,10 @@ public class playerAI : MonoBehaviour {
         {
             if (myState == playerState.Charging)
             {
+
+                Vector3 dir = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10)) - transform.position;
+                dashDir = dir;
+                dashDir = dashDir.normalized;
                 EnterState(playerState.Dashing);
             }
         }
@@ -123,7 +124,6 @@ public class playerAI : MonoBehaviour {
         switch (myState)
         {
             case playerState.Charging:
-                timeSpeed = 1; 
                 break;
             case playerState.Dashing:
                 break;
@@ -141,7 +141,7 @@ public class playerAI : MonoBehaviour {
         {
             case playerState.Charging:
                 chargedDashSpeed = minDashSpeed;
-                rbd.velocity = Vector2.zero;
+                //rbd.velocity = Vector2.zero;
                 myState = playerState.Charging;
                 break;
             case playerState.Dashing:

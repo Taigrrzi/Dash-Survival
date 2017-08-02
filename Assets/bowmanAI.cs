@@ -21,7 +21,7 @@ public class bowmanAI : enemyAI {
 	// Use this for initialization
 	void Start () {
         moveSpeed = 4;
-        shotRange = 12;
+        shotRange = 7;
         shotDelay = 2;
         shotSpeed = 15;
         shotDamage = 10;

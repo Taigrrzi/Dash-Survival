@@ -36,4 +36,12 @@ public class projectile : MonoBehaviour {
         dir = tempDir;
         dir = dir.normalized;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag=="Wall")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
