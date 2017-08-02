@@ -73,11 +73,6 @@ public class playerAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-
-        dir = pointPos - transform.position;
-        dashDir = dir;
-        dashDir = dashDir.normalized;
-
         switch (myState)
         {
             case playerState.Charging:
@@ -139,6 +134,9 @@ public class playerAI : MonoBehaviour {
         foreach (var pointer in e.Pointers)
         {
             pointPos = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10));
+            dir = pointPos - transform.position;
+            dashDir = dir;
+            dashDir = dashDir.normalized;
         }
     }
 
