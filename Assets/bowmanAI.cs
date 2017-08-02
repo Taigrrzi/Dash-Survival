@@ -26,7 +26,7 @@ public class bowmanAI : enemyAI {
         shotSpeed = 15;
         shotDamage = 10;
         rbd = GetComponent<Rigidbody2D>();
-        myState = AiState.Approaching;
+        myState = AiState.Charging;
 	}
 	
 	// Update is called once per frame
@@ -101,6 +101,21 @@ public class bowmanAI : enemyAI {
                 break;
             case AiState.Approaching:
                 myState = AiState.Approaching;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        switch (other.tag)
+        {
+            case "Player":
+                if (playerAI.player.myState==playerAI.playerState.Dashing)
+                {
+                    Destroy(gameObject);
+                }
                 break;
             default:
                 break;

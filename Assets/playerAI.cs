@@ -11,6 +11,7 @@ public class playerAI : MonoBehaviour {
     public float dashTime = 0.1f;
     public float minDashSpeed = 10f;
     public float maxDashSpeed = 100f;
+    public float currentHealth = 100f;
 
     public float chargedDashSpeed = 0;
     public Vector2 dashDir;
@@ -47,7 +48,8 @@ public class playerAI : MonoBehaviour {
     // Use this for initialization
     void Start () {
     player = this;
-        
+
+        currentHealth = 100;    
         minDashSpeed = 30f;
         maxDashSpeed = 120f;
         dashTime = 0.1f;

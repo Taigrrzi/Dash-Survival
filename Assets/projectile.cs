@@ -37,11 +37,24 @@ public class projectile : MonoBehaviour {
         dir = dir.normalized;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.collider.tag=="Wall")
         {
-            Destroy(gameObject);
+            switch (other.tag)
+            {
+                case "Player":
+                    playerAI.player.currentHealth -= shotDamage;
+                    Destroy(gameObject);
+                    break;
+                case "Enemy":
+                    //Destroy(gameObject);
+                    break;
+                case "Wall":
+                    Destroy(gameObject);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
