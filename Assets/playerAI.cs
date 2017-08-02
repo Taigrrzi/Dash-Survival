@@ -14,19 +14,23 @@ public class playerAI : MonoBehaviour {
 
     public float chargedDashSpeed = 0;
     public Vector2 dashDir;
+    Vector3 dir;
     public float dashTimer;
     public enum playerState {Charging,Dashing,Idle }
     public playerState myState;
 
     public static float timeSpeed= 1;
     public float chargeMinTimeSpeed = 0.1f;
-    public float chargeMaxTime = 1f;
+    public float slowChargeMaxTime = 1f;
+    public float dashChargeMaxTime = 1f;
+    Vector3 pointPos;
 
     private void OnEnable()
     {
         if (TouchManager.Instance != null)
         {
             TouchManager.Instance.PointersPressed += pointersPressedHandler;
+            TouchManager.Instance.PointersUpdated += pointersUpdatedHandler;
             TouchManager.Instance.PointersReleased += pointersReleasedHandler;
         }
     }
@@ -44,26 +48,42 @@ public class playerAI : MonoBehaviour {
     void Start () {
     player = this;
         
-        minDashSpeed = 20f;
-        maxDashSpeed = 100f;
+        minDashSpeed = 30f;
+        maxDashSpeed = 120f;
         dashTime = 0.1f;
         chargeMinTimeSpeed = 0.1f;
-        chargeMaxTime = 1f;
+
+        dashChargeMaxTime = 3f;
+        slowChargeMaxTime = 1f;
         
 
         dashTimer = 0;
         myState = playerState.Idle;
         rbd = GetComponent<Rigidbody2D>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void FixedUpdate()
+    {
+        float h = pointPos.x;
+        float v = pointPos.y;
+        float angle = -Mathf.Atan2(h, v) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+
+        dir = pointPos - transform.position;
+        dashDir = dir;
+        dashDir = dashDir.normalized;
+
         switch (myState)
         {
             case playerState.Charging:
                 if (chargedDashSpeed<maxDashSpeed)
                 {
-                    chargedDashSpeed +=  ((maxDashSpeed-minDashSpeed)/ chargeMaxTime) * timeSpeed * Time.deltaTime;
+                    chargedDashSpeed +=  ((maxDashSpeed-minDashSpeed)/ dashChargeMaxTime) * Time.deltaTime;
                 }/* else
                 {
                     EnterState(playerState.Dashing);
@@ -110,12 +130,15 @@ public class playerAI : MonoBehaviour {
         {
             if (myState == playerState.Charging)
             {
-
-                Vector3 dir = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10)) - transform.position;
-                dashDir = dir;
-                dashDir = dashDir.normalized;
                 EnterState(playerState.Dashing);
             }
+        }
+    }
+    private void pointersUpdatedHandler(object sender, PointerEventArgs e)
+    {
+        foreach (var pointer in e.Pointers)
+        {
+            pointPos = Camera.main.ScreenToWorldPoint(new Vector3(pointer.Position.x, pointer.Position.y, 10));
         }
     }
 
