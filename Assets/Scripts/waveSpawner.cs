@@ -14,6 +14,8 @@ public class waveSpawner : MonoBehaviour {
     public float baseSpawnDelay;
     public float spawnTimer;
     public static int waveNumber;
+    public GameObject spawnerTarget ;
+    public float spawnTargetDelay;
 
     public float waveTimer;
     
@@ -53,13 +55,16 @@ public class waveSpawner : MonoBehaviour {
 
     public void SpawnMonster(GameObject monsterType)
     {
-        float x, y;
+        /*float x, y;
         do
         {
             x = (Random.value * (24)) - 12;
             y = (Random.value * (18)) - 8;
-        } while ((x > -8 && x < 8) && (y > -5 || y < 5));
-        Instantiate<GameObject>(monsterType, new Vector3(x, y, 10), Quaternion.identity);
+        } while ((x > -8 && x < 8) && (y > -5 || y < 5));*/
+        GameObject target = Instantiate<GameObject>(spawnerTarget, new Vector3(Random.value * (16) - 8, Random.value * (10) - 5, 10), Quaternion.identity);
+        target.GetComponent<spawnTarget>().spawnDelay = spawnTargetDelay;
+        target.GetComponent<spawnTarget>().spawnMonster = monsterType;
+
     }
 
     public void SpawnNextWave()

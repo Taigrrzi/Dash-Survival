@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class enemyAI : MonoBehaviour {
 
+    //public string enemyName;
+
 	// Use this for initialization
 	void Start () {
 		

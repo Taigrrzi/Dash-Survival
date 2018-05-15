@@ -20,6 +20,8 @@ public class bowmanAI : enemyAI {
 
 	// Use this for initialization
 	void Start () {
+        //enemyName = "Archer";
+
         moveSpeed = 4;
         shotRange = 7;
         shotDelay = 2;
@@ -27,6 +29,7 @@ public class bowmanAI : enemyAI {
         shotDamage = 10;
         rbd = GetComponent<Rigidbody2D>();
         myState = AiState.Charging;
+        shotTimer = shotDelay;
 	}
 	
 	// Update is called once per frame

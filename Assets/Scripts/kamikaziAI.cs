@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class kamikaziAI : enemyAI
 {
-
     public float moveSpeed = 4;
     public int damage = 20;
     
@@ -14,6 +13,7 @@ public class kamikaziAI : enemyAI
     // Use this for initialization
     void Start()
     {
+        //enemyName = "KamiKazi";
         moveSpeed = 4;
         rbd = GetComponent<Rigidbody2D>();
     }

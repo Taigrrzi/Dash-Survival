@@ -960,6 +960,9 @@ MonoBehaviour:
   currentMonsters: []
   baseSpawnDelay: 0
   spawnTimer: 0
+  spawnerTarget: {fileID: 1961804176140622, guid: 34b6437dc5a387244977bf7b2feea590,
+    type: 2}
+  spawnTargetDelay: 2
   waveTimer: 0
 --- !u!4 &1349941708
 Transform:
@@ -1119,6 +1122,8 @@ MonoBehaviour:
   currentMonsters: []
   baseSpawnDelay: 0
   spawnTimer: 0
+  spawnerTarget: {fileID: 0}
+  spawnTargetDelay: 0
   waveTimer: 0
 --- !u!4 &1927825308
 Transform:
