@@ -26,6 +26,8 @@ public class playerAI : MonoBehaviour {
     public float dashChargeMaxTime = 1f;
     Vector3 pointPos;
 
+    public ParticleSystem playerParticles;
+
     private void OnEnable()
     {
         if (TouchManager.Instance != null)
@@ -48,6 +50,7 @@ public class playerAI : MonoBehaviour {
     // Use this for initialization
     void Start () {
     player = this;
+        playerParticles = transform.GetChild(1).GetComponent<ParticleSystem>();
 
         currentHealth = 100;    
         minDashSpeed = 30f;
@@ -162,10 +165,12 @@ public class playerAI : MonoBehaviour {
     void EnterState(playerState stateEntered)
     {
         ExitState();
+        var main = playerParticles.main;
         switch (stateEntered)
         {
             case playerState.Charging:
                 chargedDashSpeed = minDashSpeed;
+                main.startSpeed = -1;
                 rbd.velocity = Vector2.zero;
                 myState = playerState.Charging;
                 break;
@@ -173,10 +178,12 @@ public class playerAI : MonoBehaviour {
                 //Debug.Log("Dash: " + chargedDashSpeed);
                 dashTimer = dashTime;
                 myState = playerState.Dashing;
+                main.startSpeed = 1;
                 break;
             case playerState.Idle:
                 rbd.velocity = Vector2.zero;
                 myState = playerState.Idle;
+                main.startSpeed = 1;
                 break;
             default: Debug.Log("Player State Machine changed to invalid enum");
                 break;

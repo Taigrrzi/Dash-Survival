@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnMonster: {fileID: 0}
+  spawnEffect: {fileID: 0}
   spawnDelay: 0
 --- !u!212 &212593067443526328
 SpriteRenderer:
